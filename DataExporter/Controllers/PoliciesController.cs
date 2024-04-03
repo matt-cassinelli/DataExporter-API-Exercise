@@ -2,45 +2,44 @@
 using DataExporter.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DataExporter.Controllers
+namespace DataExporter.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class PoliciesController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PoliciesController : ControllerBase
+    private PolicyService _policyService;
+
+    public PoliciesController(PolicyService policyService) 
+    { 
+        _policyService = policyService;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> PostPolicies([FromBody]CreatePolicyDto createPolicyDto)
+    {         
+        return Ok();
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetPolicies()
     {
-        private PolicyService _policyService;
+        var policies = await _policyService.ReadPoliciesAsync();
 
-        public PoliciesController(PolicyService policyService) 
-        { 
-            _policyService = policyService;
-        }
+        return Ok(policies);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> PostPolicies([FromBody]CreatePolicyDto createPolicyDto)
-        {         
-            return Ok();
-        }
+    [HttpGet("{policyId}")]
+    public async Task<IActionResult> GetPolicy(int id)
+    {
+        return Ok(_policyService.ReadPolicyAsync(id));
+    }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetPolicies()
-        {
-            var policies = await _policyService.ReadPoliciesAsync();
-
-            return Ok(policies);
-        }
-
-        [HttpGet("{policyId}")]
-        public async Task<IActionResult> GetPolicy(int id)
-        {
-            return Ok(_policyService.ReadPolicyAsync(id));
-        }
-
-
-        [HttpPost("export")]
-        public async Task<IActionResult> ExportData([FromQuery]DateTime startDate, [FromQuery] DateTime endDate)
-        {
-            return Ok();
-        }
+    [HttpPost("export")]
+    public async Task<IActionResult> ExportData([FromQuery]DateTime startDate, [FromQuery] DateTime endDate)
+    {
+        return Ok();
     }
 }

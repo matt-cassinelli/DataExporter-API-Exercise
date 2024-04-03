@@ -1,24 +1,22 @@
 ﻿using DataExporter.Dtos;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataExporter.Model
+namespace DataExporter.Model;
+
+public class Policy
 {
-    public class Policy
-    {
-        public int Id { get; set; }
-        public string PolicyNumber { get; set; }
-        public decimal Premium { get; set; }
-        public DateTime StartDate { get; set; }
+    public int Id { get; set; }
+    public string PolicyNumber { get; set; }
+    public decimal Premium { get; set; }
+    public DateTime StartDate { get; set; }
 
-        public ReadPolicyDto ToDto()
+    public ReadPolicyDto ToDto()
+    {
+        return new ReadPolicyDto
         {
-            return new ReadPolicyDto
-            {
-                Id = Id,
-                PolicyNumber = PolicyNumber,
-                Premium = Premium,
-                StartDate = StartDate
-            };
-        }
+            Id = Id,
+            PolicyNumber = PolicyNumber,
+            Premium = Premium,
+            StartDate = StartDate
+        };
     }
 }

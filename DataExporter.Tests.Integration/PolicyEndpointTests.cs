@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using DataExporter.Dtos;
-using FluentAssertions;
 
 namespace DataExporter.Tests.Integration;
 
