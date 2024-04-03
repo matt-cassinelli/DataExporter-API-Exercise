@@ -25,6 +25,12 @@ public class ExporterDbContext : DbContext
             new Policy() { Id = 4, PolicyNumber = "HSCX1004", Premium = 200, StartDate = new DateTime(2024, 5, 1) },
             new Policy() { Id = 5, PolicyNumber = "HSCX1005", Premium = 100, StartDate = new DateTime(2024, 4, 1) });
 
+        modelBuilder.Entity<Note>().HasData(
+            new Note() { Id = 1, PolicyId = 4, Text = "Onboarding completed" },
+            new Note() { Id = 2, PolicyId = 4, Text = "Claim made" });
+        
+        //modelBuilder.Entity<Policy>().HasMany<Note>();
+
         base.OnModelCreating(modelBuilder);
     }
 }

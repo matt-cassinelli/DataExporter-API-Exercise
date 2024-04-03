@@ -9,6 +9,8 @@ public class Policy
     public decimal Premium { get; set; }
     public DateTime StartDate { get; set; }
 
+    public ICollection<Note> Notes { get; } = new List<Note>();
+
     public ReadPolicyResponse ToDto()
     {
         return new ReadPolicyResponse
@@ -17,6 +19,17 @@ public class Policy
             PolicyNumber = PolicyNumber,
             Premium = Premium,
             StartDate = StartDate
+        };
+    }
+
+    public PolicyWithNotesDto ToNotesDto()
+    {
+        return new PolicyWithNotesDto
+        {
+            PolicyNumber = PolicyNumber,
+            Premium = Premium,
+            StartDate = StartDate,
+            Notes = Notes.Select(x => x.Text)
         };
     }
 }

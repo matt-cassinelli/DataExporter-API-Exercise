@@ -26,6 +26,18 @@ public class PolicyService
         return model.ToDto();
     }
 
+    public async Task<ReadPolicyResponse?> ReadPolicyAsync(int id)
+    {
+        var policy = await _dbContext.Policies.SingleAsync(x => x.Id == id);
+
+        if (policy is null)
+        {
+            return null;
+        }
+
+        return policy.ToDto();
+    }
+
     public async Task<ReadPoliciesResponse> ReadPoliciesAsync()
     {
         var policies = await _dbContext.Policies
@@ -38,15 +50,19 @@ public class PolicyService
         };
     }
 
-    public async Task<ReadPolicyResponse?> ReadPolicyAsync(int id)
+    public async Task<ExportDataResponse> ExportDataAsync(DateTime startDate, DateTime endDate)
     {
-        var policy = await _dbContext.Policies.SingleAsync(x => x.Id == id); // TODO: When primary key set up, use FindAsync() instead
+        // TODO: Validation
 
-        if (policy is null)
+        var policies = await _dbContext.Policies
+            .Where(x => x.StartDate >= startDate && x.StartDate < endDate)
+            //.Include()
+            .AsNoTracking()
+            .ToListAsync();
+
+        return new ExportDataResponse
         {
-            return null;
-        }
-
-        return policy.ToDto();
+            Data = policies.Select(x => x.ToNotesDto())
+        };
     }
 }

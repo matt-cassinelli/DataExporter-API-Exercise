@@ -20,7 +20,7 @@ public class PolicyEndpointTests
         {
             PolicyNumber = "AAAA9999",
             Premium = 123,
-            StartDate = DateTime.Parse("2025-12-13T14:15:00.0000000Z")
+            StartDate = DateTime.Parse("2025-01-13T14:15:00")
         };
 
         var request = new HttpRequestMessage
@@ -70,5 +70,22 @@ public class PolicyEndpointTests
 
         body!.PolicyNumber.Should().Be("HSCX1001");
         body!.Premium.Should().Be(200);
+    }
+
+    [Test, Order(4)]
+    public async Task Can_Export_Data()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:7246/policies/export?startDate=2024-04-13&endDate=2025-05-13");
+
+        var response = await _httpClient.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var body = await response.Content.ReadFromJsonAsync<ExportDataResponse>();
+
+        body!.Data.Should().HaveCount(2); // Only 1 from seed and 1 created above should fall within the date range.
+
+        //body!.Data.First(x => x.PolicyNumber == "HSCX1004")!.Notes.Should()
+        //    .BeEquivalentTo("Onboarding completed", "Claim made");
     }
 }

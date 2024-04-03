@@ -2,8 +2,8 @@
 
 public record ReadPolicyResponse
 {
-    public int Id { get; set; }
-    public string PolicyNumber { get; set; }
-    public decimal Premium { get; set; }
-    public DateTime StartDate { get; set; }
+    public int Id { get; init; }
+    public string PolicyNumber { get; init; }
+    public decimal Premium { get; init; }
+    public DateTime StartDate { get; init; }
 }

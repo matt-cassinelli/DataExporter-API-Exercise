@@ -4,9 +4,9 @@ namespace DataExporter.Dtos;
 
 public record CreatePolicyRequest
 {
-    public string PolicyNumber { get; set; }
-    public decimal Premium { get; set; }
-    public DateTime StartDate { get; set; }
+    public string PolicyNumber { get; init; }
+    public decimal Premium { get; init; }
+    public DateTime StartDate { get; init; }
 
     public Policy ToModel()
     {
