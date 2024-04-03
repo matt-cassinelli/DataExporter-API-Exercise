@@ -25,7 +25,9 @@ namespace DataExporter.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPolicies()
         {
-            return Ok();
+            var policies = await _policyService.ReadPoliciesAsync();
+
+            return Ok(policies);
         }
 
         [HttpGet("{policyId}")]
