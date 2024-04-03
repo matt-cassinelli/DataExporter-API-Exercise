@@ -16,11 +16,14 @@ public class PoliciesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostPolicies([FromBody]CreatePolicyDto createPolicyDto)
-    {         
-        return Ok();
-    }
+    public async Task<IActionResult> PostPolicy([FromBody] CreatePolicyRequest createPolicyRequest)
+    {
+        var createdPolicy = await _policyService.CreatePolicyAsync(createPolicyRequest);
 
+        // TODO: Return ProblemDetails 404 or 422 if input was invalid
+
+        return Created("", createdPolicy);
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetPolicies()

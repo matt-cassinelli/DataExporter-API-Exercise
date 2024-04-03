@@ -13,10 +13,17 @@ public class PolicyService
         _dbContext.Database.EnsureCreated();
     }
 
-    /// <returns> A ReadPolicyDto representing the new policy, if succeded. Returns null, otherwise. </returns>
-    public async Task<ReadPolicyResponse?> CreatePolicyAsync(CreatePolicyDto createPolicyDto)
+    /// <returns> A ReadPolicyResponse representing the new policy, if succeded. Returns null, otherwise. </returns>
+    public async Task<ReadPolicyResponse?> CreatePolicyAsync(CreatePolicyRequest createPolicyDto)
     {
-        return await Task.FromResult(new ReadPolicyResponse());
+        // TODO: Validation
+
+        var model = createPolicyDto.ToModel();
+
+        _dbContext.Policies.Add(model);
+        await _dbContext.SaveChangesAsync();
+
+        return model.ToDto();
     }
 
     public async Task<ReadPoliciesResponse> ReadPoliciesAsync()
