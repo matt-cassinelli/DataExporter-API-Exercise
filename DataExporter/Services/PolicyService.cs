@@ -14,9 +14,9 @@ public class PolicyService
     }
 
     /// <returns> A ReadPolicyDto representing the new policy, if succeded. Returns null, otherwise. </returns>
-    public async Task<ReadPolicyDto?> CreatePolicyAsync(CreatePolicyDto createPolicyDto)
+    public async Task<ReadPolicyResponse?> CreatePolicyAsync(CreatePolicyDto createPolicyDto)
     {
-        return await Task.FromResult(new ReadPolicyDto());
+        return await Task.FromResult(new ReadPolicyResponse());
     }
 
     public async Task<ReadPoliciesResponse> ReadPoliciesAsync()
@@ -31,22 +31,15 @@ public class PolicyService
         };
     }
 
-    public async Task<ReadPolicyDto?> ReadPolicyAsync(int id)
+    public async Task<ReadPolicyResponse?> ReadPolicyAsync(int id)
     {
-        var policy = await _dbContext.Policies.SingleAsync(x => x.Id == id);
-        if (policy == null)
+        var policy = await _dbContext.Policies.SingleAsync(x => x.Id == id); // TODO: When primary key set up, use FindAsync() instead
+
+        if (policy is null)
         {
             return null;
         }
 
-        var policyDto = new ReadPolicyDto()
-        {
-            Id = policy.Id,
-            PolicyNumber = policy.PolicyNumber,
-            Premium = policy.Premium,
-            StartDate = policy.StartDate
-        };
-
-        return policyDto;
+        return policy.ToDto();
     }
 }

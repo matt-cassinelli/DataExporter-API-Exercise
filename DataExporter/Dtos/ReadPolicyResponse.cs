@@ -1,6 +1,6 @@
 ﻿namespace DataExporter.Dtos;
 
-public class ReadPolicyDto
+public record ReadPolicyResponse
 {
     public int Id { get; set; }
     public string PolicyNumber { get; set; }

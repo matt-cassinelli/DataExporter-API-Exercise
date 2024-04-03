@@ -28,4 +28,19 @@ public class PolicyEndpointTests
         body!.Policies.Should().HaveCount(5);
         body!.Policies.Select(x => x.PolicyNumber).Should().Contain("HSCX1001");
     }
+
+    [Fact]
+    public async Task Can_Read_Policy()
+    {
+        var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7246/policies/1");
+
+        var response = await _httpClient.SendAsync(request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        var body = await response.Content.ReadFromJsonAsync<ReadPolicyResponse>();
+
+        body!.PolicyNumber.Should().Be("HSCX1001");
+        body!.Premium.Should().Be(200);
+    }
 }

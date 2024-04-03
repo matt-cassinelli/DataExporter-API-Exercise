@@ -30,10 +30,14 @@ public class PoliciesController : ControllerBase
         return Ok(policies);
     }
 
-    [HttpGet("{policyId}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetPolicy(int id)
     {
-        return Ok(_policyService.ReadPolicyAsync(id));
+        var policy = await _policyService.ReadPolicyAsync(id);
+
+        // TODO: If not found, return 404 ProblemDetails
+
+        return Ok(policy);
     }
 
 

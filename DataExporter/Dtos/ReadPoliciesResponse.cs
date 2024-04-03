@@ -6,5 +6,5 @@
 /// </remarks>
 public record ReadPoliciesResponse
 {
-    public IEnumerable<ReadPolicyDto> Policies { get; init; } = new List<ReadPolicyDto>();
+    public IEnumerable<ReadPolicyResponse> Policies { get; init; } = new List<ReadPolicyResponse>();
 }

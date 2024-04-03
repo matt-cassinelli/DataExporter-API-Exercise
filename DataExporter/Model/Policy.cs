@@ -9,9 +9,9 @@ public class Policy
     public decimal Premium { get; set; }
     public DateTime StartDate { get; set; }
 
-    public ReadPolicyDto ToDto()
+    public ReadPolicyResponse ToDto()
     {
-        return new ReadPolicyDto
+        return new ReadPolicyResponse
         {
             Id = Id,
             PolicyNumber = PolicyNumber,
